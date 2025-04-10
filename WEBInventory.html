@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Inventory Management System</title>
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1539/1539833.png" type="image/png" />
+  <link rel="stylesheet" href="inv.css">
+</head>
+<body>
+
+  <div id="mainContent">
+    <div class="top-bar">
+      <div class="title" style="color: #b82424;">
+        <img src="https://cdn-icons-png.flaticon.com/512/1539/1539833.png" alt="Inventory Photo" />
+        Inventory Management System
+      </div>
+
+      <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search keywords..." />
+        <button id="searchBtn">Search</button>
+      </div>
+      
+      <div class="search-container2">
+        <button class="plus-button">Add New Item +</button>
+      </div>
+    </div>
+
+    <div class="content">
+      <p class="Content1">Current Inventory</p>
+
+      <div class="cont">
+        <p class="sort">Search By:</p>
+        <p class="sort">Sort By:</p>
+        <p class="sort" style="margin-left: 10px;">Sort by Price:</p>
+      </div>
+
+      <div class="opt1">
+        <select class="options" id="sortName">
+          <option disabled selected>Sort by Name</option>
+          <option value="asc">A - Z</option>
+          <option value="desc">Z - A</option>
+        </select>
+
+        <select class="options" id="sortDate">
+          <option disabled selected>Sort by Date</option>
+          <option value="asc">Oldest First</option>
+          <option value="desc">Newest First</option>
+        </select>
+
+        <select class="options" id="sortPrice">
+          <option disabled selected>Sort by Price</option>
+          <option value="asc">Low to High</option>
+          <option value="desc">High to Low</option>
+        </select>
+      </div>
+
+
+      <table style="width:100%">
+        <tr>
+          <th colspan="7" class="headt">Product List</th>               
+        </tr>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Details</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Date</th>
+          <th>Remove/Edit</th>
+        </tr>
+        <tbody id="inventoryTable"></tbody>
+      </table>
+
+      <div class="reserve">
+        <p>@2025 Taberdo, Raphael E. DCET 1-1</p>
+      </div>
+    </div>
+  </div>
+
+  <!--modal na popup--> 
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <h2>Add Item</h2>
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" />
+        <small class="error"></small>
+      </div>
+      <div class="form-group">
+        <label for="details">Details</label>
+        <input type="text" id="details" />
+        <small class="error"></small>
+      </div>
+      <div class="form-group">
+        <label for="quantity">Quantity</label>
+        <input type="number" id="quantity" />
+        <small class="error"></small>
+      </div>
+      <div class="form-group">
+        <label for="price">Price</label>
+        <input type="number" id="price" />
+        <small class="error"></small>
+      </div>
+      <div class="form-group">
+        <label for="date">Date</label>
+        <input type="date" id="date" />
+        <small class="error"></small>
+      </div>
+      <div class="form-group">
+        <label for="type">Type</label>
+        <select id="type">
+          <option value="">-- Select Type --</option>
+          <option value="type1">Type 1</option>
+          <option value="type2">Type 2</option>
+        </select>
+        <small class="error"></small>
+      </div>
+      <div class="actions">
+        <button class="butto" id="addBtn">Add</button>
+        <button class="butto" id="cancelBtn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit na mdal popup -->
+  <div class="modal-overlay" id="editOverlay" style="display: none;">
+    <div class="modal">
+      <h2>Edit Item</h2>
+      <div class="form-group">
+        <label for="editName">Name</label>
+        <input type="text" id="editName" />
+        <small class="error"></small>
+      </div>
+      <div class="form-group">
+        <label for="editDetails">Details</label>
+        <input type="text" id="editDetails" />
+        <small class="error"></small>
+      </div>
+      <div class="form-group">
+        <label for="editQuantity">Quantity</label>
+        <input type="number" id="editQuantity" />
+        <small class="error"></small>
+      </div>
+      <div class="form-group">
+        <label for="editPrice">Price</label>
+        <input type="number" id="editPrice" />
+        <small class="error"></small>
+      </div>
+      <div class="form-group">
+        <label for="editDate">Date</label>
+        <input type="date" id="editDate" />
+        <small class="error"></small>
+      </div>
+      <div class="form-group">
+        <label for="editType">Type</label>
+        <select id="editType">
+          <option value="">-- Select Type --</option>
+          <option value="type1">Type 1</option>
+          <option value="type2">Type 2</option>
+        </select>
+        <small class="error"></small>
+      </div>
+      <div class="actions">
+        <button class="butto" id="saveEdit">Save</button>
+        <button class="butto" id="cancelEdit">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="web.js"></script>
+</body>
+</html>
