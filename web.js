@@ -1,17 +1,17 @@
 document.addEventListener("DOMContentLoaded", function () {
   const modal = document.getElementById("modalOverlay");
-  const openBtn = document.querySelector(".plus-button");
-  const addButton = document.getElementById("addBtn");
-  const cancelButton = document.getElementById("cancelBtn");
-  const mainContent = document.getElementById("mainContent");
-  const table = document.getElementById("inventoryTable");
+  const openbtn = document.querySelector(".plus-button");
+  const addbtn = document.getElementById("addBtn");
+  const cancelbtn = document.getElementById("cancelBtn");
+  const maincontent = document.getElementById("mainContent");
+  const inventorytable = document.getElementById("inventoryTable");
 
-  const searchInput = document.getElementById("searchInput");
-  const searchBtn = document.getElementById("searchBtn");
+  const searchinput = document.getElementById("searchInput");
+  const searchbtn = document.getElementById("searchBtn");
 
-  const sortName = document.getElementById("sortName");
-  const sortDate = document.getElementById("sortDate");
-  const sortPrice = document.getElementById("sortPrice");
+  const sortname = document.getElementById("sortName");
+  const sortdate = document.getElementById("sortDate");
+  const sortprice = document.getElementById("sortPrice");
 
   let inventory = JSON.parse(localStorage.getItem("inventoryData")) || [];
 
@@ -27,10 +27,10 @@ document.addEventListener("DOMContentLoaded", function () {
     input.error = input.element.parentElement.querySelector(".error");
   });
 
-  const editOverlay = document.getElementById("editOverlay");
-  const saveEditBtn = document.getElementById("saveEdit");
-  const cancelEditBtn = document.getElementById("cancelEdit");
-  const editInputs = [
+  const editoverlay = document.getElementById("editOverlay");
+  const saveedit = document.getElementById("saveEdit");
+  const canceledit = document.getElementById("cancelEdit");
+  const editinputs = [
     { element: document.getElementById("editName"), error: null },
     { element: document.getElementById("editDetails"), error: null },
     { element: document.getElementById("editQuantity"), error: null },
@@ -38,13 +38,13 @@ document.addEventListener("DOMContentLoaded", function () {
     { element: document.getElementById("editDate"), error: null },
     { element: document.getElementById("editType"), error: null },
   ];
-  editInputs.forEach(input => {
+  editinputs.forEach(input => {
     input.error = input.element.parentElement.querySelector(".error");
   });
 
-  let editIndex = null;
+  let editindex = null;
 
-  function clearForm() {
+  function clearform() {
     inputs.forEach(input => {
       input.element.value = "";
       input.error.textContent = "";
@@ -52,22 +52,22 @@ document.addEventListener("DOMContentLoaded", function () {
     inputs[5].element.value = "";
   }
 
-  function validate(inputsArray) {
-    let isValid = true;
-    inputsArray.forEach(input => {
+  function validate(inputsarray) {
+    let isvalid = true;
+    inputsarray.forEach(input => {
       const val = input.element.value.trim();
       if (val === "" || (input.element.type === "number" && isNaN(val))) {
         input.error.textContent = "Fill up required";
-        isValid = false;
+        isvalid = false;
       } else {
         input.error.textContent = "";
       }
     });
-    return isValid;
+    return isvalid;
   }
 
-  function renderInventory(filter = "") {
-    table.innerHTML = "";
+  function renderinventory(filter = "") {
+    inventorytable.innerHTML = "";
     inventory.forEach((item, index) => {
       const match =
         item.name.toLowerCase().includes(filter) ||
@@ -76,8 +76,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (!match) return;
 
-      const newRow = document.createElement("tr");
-      newRow.innerHTML = `
+      const newrow = document.createElement("tr");
+      newrow.innerHTML = `
         <td>${index + 1}</td>
         <td>${item.name}</td>
         <td>${item.details}</td>
@@ -94,28 +94,28 @@ document.addEventListener("DOMContentLoaded", function () {
         </td>
       `;
 
-      newRow.querySelector(".edit-button").addEventListener("click", function () {
-        openEditModal(index);
+      newrow.querySelector(".edit-button").addEventListener("click", function () {
+        openedit(index);
       });
 
-      newRow.querySelector(".delete-button").addEventListener("click", function () {
+      newrow.querySelector(".delete-button").addEventListener("click", function () {
         if (confirm("Are you sure you want to delete this item?")) {
           inventory.splice(index, 1);
           localStorage.setItem("inventoryData", JSON.stringify(inventory));
-          renderInventory(searchInput.value.toLowerCase());
+          renderinventory(searchinput.value.toLowerCase());
         }
       });
 
-      table.appendChild(newRow);
+      inventorytable.appendChild(newrow);
     });
   }
 
-  function sortInventory(criteria, order) {
+  function sortinventory(criteria, order) {
     inventory.sort((a, b) => {
       if (criteria === "name") {
-        const nameA = a.name.toLowerCase();
-        const nameB = b.name.toLowerCase();
-        return order === "asc" ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
+        const namea = a.name.toLowerCase();
+        const nameb = b.name.toLowerCase();
+        return order === "asc" ? namea.localeCompare(nameb) : nameb.localeCompare(namea);
       }
       if (criteria === "date") {
         return order === "asc"
@@ -128,25 +128,25 @@ document.addEventListener("DOMContentLoaded", function () {
       return 0;
     });
 
-    renderInventory(searchInput.value.toLowerCase());
+    renderinventory(searchinput.value.toLowerCase());
   }
 
-  openBtn.addEventListener("click", function (e) {
+  openbtn.addEventListener("click", function (e) {
     e.preventDefault();
     modal.style.display = "flex";
-    mainContent.classList.add("blur");
+    maincontent.classList.add("blur");
   });
 
-  cancelButton.addEventListener("click", function () {
-    clearForm();
+  cancelbtn.addEventListener("click", function () {
+    clearform();
     modal.style.display = "none";
-    mainContent.classList.remove("blur");
+    maincontent.classList.remove("blur");
   });
 
-  addButton.addEventListener("click", function () {
+  addbtn.addEventListener("click", function () {
     if (!validate(inputs)) return;
 
-    const newItem = {
+    const newitem = {
       name: inputs[0].element.value.trim(),
       details: inputs[1].element.value.trim(),
       quantity: parseInt(inputs[2].element.value),
@@ -155,89 +155,89 @@ document.addEventListener("DOMContentLoaded", function () {
       type: inputs[5].element.value,
     };
 
-    inventory.push(newItem);
+    inventory.push(newitem);
     localStorage.setItem("inventoryData", JSON.stringify(inventory));
-    renderInventory(searchInput.value.toLowerCase());
-    clearForm();
+    renderinventory(searchinput.value.toLowerCase());
+    clearform();
     modal.style.display = "none";
-    mainContent.classList.remove("blur");
+    maincontent.classList.remove("blur");
   });
 
-  function openEditModal(index) {
+  function openedit(index) {
     const item = inventory[index];
-    editIndex = index;
+    editindex = index;
 
-    editInputs[0].element.value = item.name;
-    editInputs[1].element.value = item.details;
-    editInputs[2].element.value = item.quantity;
-    editInputs[3].element.value = item.price;
-    editInputs[4].element.value = item.date;
-    editInputs[5].element.value = item.type;
+    editinputs[0].element.value = item.name;
+    editinputs[1].element.value = item.details;
+    editinputs[2].element.value = item.quantity;
+    editinputs[3].element.value = item.price;
+    editinputs[4].element.value = item.date;
+    editinputs[5].element.value = item.type;
 
-    editOverlay.style.display = "flex";
-    mainContent.classList.add("blur");
+    editoverlay.style.display = "flex";
+    maincontent.classList.add("blur");
   }
 
-  function closeEditModal() {
-    editOverlay.style.display = "none";
-    mainContent.classList.remove("blur");
-    editInputs.forEach(input => (input.error.textContent = ""));
-    editIndex = null;
+  function closeedit() {
+    editoverlay.style.display = "none";
+    maincontent.classList.remove("blur");
+    editinputs.forEach(input => (input.error.textContent = ""));
+    editindex = null;
   }
 
-  saveEditBtn.addEventListener("click", function () {
-    if (editIndex === null) return;
-    if (!validate(editInputs)) return;
+  saveedit.addEventListener("click", function () {
+    if (editindex === null) return;
+    if (!validate(editinputs)) return;
 
-    inventory[editIndex] = {
-      name: editInputs[0].element.value.trim(),
-      details: editInputs[1].element.value.trim(),
-      quantity: parseInt(editInputs[2].element.value),
-      price: parseFloat(editInputs[3].element.value),
-      date: editInputs[4].element.value,
-      type: editInputs[5].element.value,
+    inventory[editindex] = {
+      name: editinputs[0].element.value.trim(),
+      details: editinputs[1].element.value.trim(),
+      quantity: parseInt(editinputs[2].element.value),
+      price: parseFloat(editinputs[3].element.value),
+      date: editinputs[4].element.value,
+      type: editinputs[5].element.value,
     };
 
     localStorage.setItem("inventoryData", JSON.stringify(inventory));
-    renderInventory(searchInput.value.toLowerCase());
-    closeEditModal();
+    renderinventory(searchinput.value.toLowerCase());
+    closeedit();
   });
 
-  cancelEditBtn.addEventListener("click", closeEditModal);
+  canceledit.addEventListener("click", closeedit);
 
-  if (searchInput && searchBtn) {
-    searchBtn.addEventListener("click", function () {
-      const query = searchInput.value.trim().toLowerCase();
+  if (searchinput && searchbtn) {
+    searchbtn.addEventListener("click", function () {
+      const query = searchinput.value.trim().toLowerCase();
       if (query === "") {
-        searchInput.classList.add("input-error");
-        searchInput.placeholder = "Input keywords";
-        searchInput.value = "";
+        searchinput.classList.add("input-error");
+        searchinput.placeholder = "Input keywords";
+        searchinput.value = "";
         setTimeout(() => {
-          searchInput.classList.remove("input-error");
+          searchinput.classList.remove("input-error");
         }, 1000);
         return;
       }
 
-      renderInventory(query);
+      renderinventory(query);
     });
 
-    searchInput.addEventListener("input", function () {
-      searchInput.placeholder = "Search keywords...";
-      renderInventory(this.value.toLowerCase());
+    searchinput.addEventListener("input", function () {
+      searchinput.placeholder = "Search keywords...";
+      renderinventory(this.value.toLowerCase());
     });
   }
 
-  sortName.addEventListener("change", function () {
-    sortInventory("name", this.value);
+  sortname.addEventListener("change", function () {
+    sortinventory("name", this.value);
   });
 
-  sortDate.addEventListener("change", function () {
-    sortInventory("date", this.value);
+  sortdate.addEventListener("change", function () {
+    sortinventory("date", this.value);
   });
 
-  sortPrice.addEventListener("change", function () {
-    sortInventory("price", this.value);
+  sortprice.addEventListener("change", function () {
+    sortinventory("price", this.value);
   });
 
-  renderInventory();
+  renderinventory();
 });
